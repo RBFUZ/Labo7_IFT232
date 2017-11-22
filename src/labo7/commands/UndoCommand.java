@@ -16,7 +16,7 @@ public class UndoCommand extends EditDocumentCommand
     public void execute()
     {
         EditDocumentCommand command = log.retirer();
-        
+
         if (command != null)
             command.undo();
     }

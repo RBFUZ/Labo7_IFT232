@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import labo7.commands.CommandFactory;
 import labo7.commands.CopyCommand;
 import labo7.commands.CutCommand;
 import labo7.commands.MajCommand;
@@ -146,16 +147,16 @@ public class Editor extends JFrame
      * 
      * @param commandLog
      */
-    public void initCommands(CommandLog commandLog)
+    public void initCommands()
     {
         // Initalisation des commandes
-        copyCommand = new CopyCommand(model, textBox, commandLog);
-        cutCommand = new CutCommand(model, textBox, commandLog);
-        majCommand = new MajCommand(model, textBox, commandLog);
-        minCommand = new MinCommand(model, textBox, commandLog);
-        pasteCommand = new PasteCommand(model, textBox, commandLog);
-        twitCommand = new TwitCommand(model, textBox, commandLog);
-        undoCommand = new UndoCommand(model, textBox, commandLog);
+        copyCommand = CommandFactory.getInstance().createCopyCommand(model, textBox);
+        cutCommand = CommandFactory.getInstance().createCutCommand(model, textBox);
+        majCommand = CommandFactory.getInstance().createMajCommand(model, textBox);
+        minCommand = CommandFactory.getInstance().createMinCommand(model, textBox);
+        pasteCommand = CommandFactory.getInstance().createPasteCommand(model, textBox);
+        twitCommand = CommandFactory.getInstance().createTwitCommand(model, textBox);
+        undoCommand = CommandFactory.getInstance().createUndoCommand(model, textBox);
 
         // Liaison entre les boutons et les commandes
         copyButton.storeCommand(copyCommand);
@@ -190,7 +191,7 @@ public class Editor extends JFrame
         shortcuts.addShortcut(keybordshortcutRedo);
         shortcuts.addShortcut(keybordshortcutUndo);
 
-        toggleInsert = new ToggleInsertCommand(model, insert);
+        toggleInsert = CommandFactory.getInstance().createToggleInsertCommand(model, insert);
         insert.storeCommand(toggleInsert);
 
     }
