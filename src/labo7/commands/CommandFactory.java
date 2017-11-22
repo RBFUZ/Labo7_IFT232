@@ -57,4 +57,12 @@ public class CommandFactory
     {
         return new ToggleInsertCommand(model, insert);
     }
+
+    /**
+     * @return the log
+     */
+    public CommandLog getLog()
+    {
+        return log;
+    }
 }

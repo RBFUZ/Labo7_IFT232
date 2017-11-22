@@ -14,140 +14,152 @@ import labo7.model.EditableDocument;
 import labo7.ui.menu.EditorMenu;
 import labo7.ui.menu.EditorMenuItem;
 
-public class EditorTextArea extends JTextArea implements DocumentListener, DocumentObserver, MouseListener {
+public class EditorTextArea extends JTextArea implements DocumentListener, DocumentObserver, MouseListener
+{
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private EditableDocument model;
+    private EditableDocument model;
 
-	// Sourdine de modifications: Cette classe peut causer des modifications au
-	// modèle, et doit également
-	// se mettre à jour lorsque le modèle change. Un appel à model.setText
-	// causerait une boucle infinie.
-	private boolean mute = false;
+    // Sourdine de modifications: Cette classe peut causer des modifications au
+    // modï¿½le, et doit ï¿½galement
+    // se mettre ï¿½ jour lorsque le modï¿½le change. Un appel ï¿½ model.setText
+    // causerait une boucle infinie.
+    private boolean mute = false;
 
-	public EditorTextArea(int i, int j,EditableDocument doc) {
-		super(i, j);
-		setMaximumSize(new Dimension(i, j));
-		setMinimumSize(new Dimension(i, j));
-		// Attention! Le texte interne du textArea n'est pas la même chose
-		// que le EditableDocument. La façon de déterminer si le texte interne a
-		// été
-		// modifié est d'utiliser un DocumentListener, qui se voit signalé
-		// lorsque le texte dans le contrôle d'interface est modifié.
-		getDocument().addDocumentListener(this);
-		addMouseListener(this);
-		
-		//Est également un observateur du EditableDocument! 
-		model = doc;
-		model.attach(this);
-	}
+    public EditorTextArea(int i, int j, EditableDocument doc)
+    {
+        super(i, j);
+        setMaximumSize(new Dimension(i, j));
+        setMinimumSize(new Dimension(i, j));
+        // Attention! Le texte interne du textArea n'est pas la mï¿½me chose
+        // que le EditableDocument. La faï¿½on de dï¿½terminer si le texte interne a
+        // ï¿½tï¿½
+        // modifiï¿½ est d'utiliser un DocumentListener, qui se voit signalï¿½
+        // lorsque le texte dans le contrï¿½le d'interface est modifiï¿½.
+        getDocument().addDocumentListener(this);
+        addMouseListener(this);
 
-	@Override
-	public void setModel(EditableDocument doc) {
-		model = doc;
-		model.attach(this);
-	}
+        // Est ï¿½galement un observateur du EditableDocument!
+        model = doc;
+        model.attach(this);
+    }
 
-	/*
-	 * Mises à jour du champ de texte interne du JTextArea. Lorsque cela se
-	 * produit, on doit mettre à jour le texte du modèle.
-	 */
-	@Override
-	public void insertUpdate(DocumentEvent evt) {
-		modifyDocument(evt);
-	}
+    @Override
+    public void setModel(EditableDocument doc)
+    {
+        model = doc;
+        model.attach(this);
+    }
 
-	@Override
-	public void removeUpdate(DocumentEvent evt) {
-		modifyDocument(evt);
-	}
+    /*
+     * Mises ï¿½ jour du champ de texte interne du JTextArea. Lorsque cela se
+     * produit, on doit mettre ï¿½ jour le texte du modï¿½le.
+     */
+    @Override
+    public void insertUpdate(DocumentEvent evt)
+    {
+        modifyDocument(evt);
+    }
 
-	/*
-	 * Méthode invoquée lorsque le modèle change. Le texte doit être mis à jour
-	 * dans la boîte de texte selon le texte se trouvant dans le modèle. Cause
-	 * un événement insertUpdate. Pourrait causer une boucle infinie sans la
-	 * sourdine.
-	 */
-	@Override
-	public void update() {
-		if (!mute) {
-			mute = true;
-			setText(model.getText());
-			mute = false;
-		}
-	}
+    @Override
+    public void removeUpdate(DocumentEvent evt)
+    {
+        modifyDocument(evt);
+    }
 
-	/*
-	 * Mises à jour du champ de texte interne du JTextArea. Lorsque cela se
-	 * produit, ont doit mettre à jour le texte du modèle. Cette mise à jour
-	 * cause une notification chez (setText chez EditableDocument), ce qui
-	 * envoie un signal à tous les observateurs, dont l'instance actuelle.
-	 * Causerait des mises à jour en boucle sans la sourdine.
-	 */
-	private void modifyDocument(DocumentEvent evt) {
-		if (!mute) {
-			mute = true;
+    /*
+     * Mï¿½thode invoquï¿½e lorsque le modï¿½le change. Le texte doit ï¿½tre mis ï¿½ jour
+     * dans la boï¿½te de texte selon le texte se trouvant dans le modï¿½le. Cause
+     * un ï¿½vï¿½nement insertUpdate. Pourrait causer une boucle infinie sans la
+     * sourdine.
+     */
+    @Override
+    public void update()
+    {
+        if (!mute)
+        {
+            mute = true;
+            setText(model.getText());
+            mute = false;
+        }
+    }
 
-			// Attention! Le texte interne du textArea n'est pas la même
-			// chose que le EditableDocument.
-			// getText() obtient le texte se trouvant dans le contrôle
-			// d'interface. model.setText modifie le texte du côté du
-			// EditableDocument.
-			model.setText(this.getText());
+    /*
+     * Mises ï¿½ jour du champ de texte interne du JTextArea. Lorsque cela se
+     * produit, ont doit mettre ï¿½ jour le texte du modï¿½le. Cette mise ï¿½ jour
+     * cause une notification chez (setText chez EditableDocument), ce qui
+     * envoie un signal ï¿½ tous les observateurs, dont l'instance actuelle.
+     * Causerait des mises ï¿½ jour en boucle sans la sourdine.
+     */
+    private void modifyDocument(DocumentEvent evt)
+    {
+        if (!mute)
+        {
+            mute = true;
 
-			mute = false;
-		}
-	}
+            // Attention! Le texte interne du textArea n'est pas la mï¿½me
+            // chose que le EditableDocument.
+            // getText() obtient le texte se trouvant dans le contrï¿½le
+            // d'interface. model.setText modifie le texte du cï¿½tï¿½ du
+            // EditableDocument.
+            model.setText(this.getText());
 
-	/*
-	 * Méthode invoquée lorsqu'un bouton de la souris est relâché.
-	 */
-	@SuppressWarnings("serial")
-	@Override
-	public void mouseReleased(MouseEvent evt) {
+            mute = false;
+        }
+    }
 
-		// Si c'est le déclencheur de menu (clic droit sur PC, pomme-clic sur
-		// Mac)...
-		if (evt.isPopupTrigger()) {
+    /*
+     * Mï¿½thode invoquï¿½e lorsqu'un bouton de la souris est relï¿½chï¿½.
+     */
+    @SuppressWarnings("serial")
+    @Override
+    public void mouseReleased(MouseEvent evt)
+    {
 
-			EditorMenu menu = new EditorMenu();
-			menu.add(new EditorMenuItem("Ceci est un test", model, this) {
+        // Si c'est le dï¿½clencheur de menu (clic droit sur PC, pomme-clic sur
+        // Mac)...
+        if (evt.isPopupTrigger())
+        {
 
-				public void actionPerformed(ActionEvent evt) {
-					System.out.println("Ceci est un item de menu test");
-				}
+            EditorMenu menu = new EditorMenu(model, this);
+            
+            // Ajoute les items du menu dans le menu contextuel
+            menu.setup();
+            
+            add(menu);
+            menu.show(this, evt.getX(), evt.getY());
+        }
 
-			});
-			add(menu);
-			menu.show(this, evt.getX(), evt.getY());
-		}
+    }
 
-	}
+    @Override
+    public void changedUpdate(DocumentEvent evt)
+    {
+        // jamais dï¿½clenchï¿½
+    }
 
-	@Override
-	public void changedUpdate(DocumentEvent evt) {
-		// jamais déclenché
-	}
+    /*
+     * Autres mï¿½thodes de gestion de la souris. Ne causent aucun ï¿½vï¿½nement dans
+     * cette classe.
+     */
+    @Override
+    public void mouseClicked(MouseEvent arg0)
+    {
+    }
 
-	/*
-	 * Autres méthodes de gestion de la souris. Ne causent aucun événement dans
-	 * cette classe.
-	 */
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-	}
+    @Override
+    public void mouseEntered(MouseEvent arg0)
+    {
+    }
 
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-	}
+    @Override
+    public void mouseExited(MouseEvent arg0)
+    {
+    }
 
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-	}
-
+    @Override
+    public void mousePressed(MouseEvent arg0)
+    {
+    }
 }
