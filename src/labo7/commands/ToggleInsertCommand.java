@@ -18,14 +18,8 @@ public class ToggleInsertCommand extends Command
     public void execute()
     {
         if (checkBox.isSelected())
-        {
-            System.out.println("IsSelected");
             model.enableInsert();
-        }
         else
-        {
-            System.out.println("Is not Selected");
             model.disableInsert();
-        }
     }
 }

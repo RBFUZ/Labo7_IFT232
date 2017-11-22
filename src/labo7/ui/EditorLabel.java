@@ -13,7 +13,7 @@ public class EditorLabel extends JLabel implements DocumentObserver{
 	
 	@Override
 	public void update() {
-		setText("Character count:"+model.getText().length());		
+	    setText("Character count:"+model.getText().length());
 	}
 	
 	public void setModel(EditableDocument d){

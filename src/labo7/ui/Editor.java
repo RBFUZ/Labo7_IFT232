@@ -17,6 +17,8 @@ import labo7.commands.MinCommand;
 import labo7.commands.PasteCommand;
 import labo7.commands.ToggleInsertCommand;
 import labo7.commands.TwitCommand;
+import labo7.commands.UndoCommand;
+import labo7.log.CommandLog;
 import labo7.model.EditableDocument;
 import labo7.ui.buttons.EditorButton;
 import labo7.ui.shortcuts.KeyboardShortcut;
@@ -49,6 +51,7 @@ public class Editor extends JFrame
     private MinCommand minCommand;
     private PasteCommand pasteCommand;
     private TwitCommand twitCommand;
+    private UndoCommand undoCommand;
 
     private ToggleInsertCommand toggleInsert;
 
@@ -138,15 +141,21 @@ public class Editor extends JFrame
 
     }
 
-    public void initCommands()
+    /**
+     * Iniialisation des commandes
+     * 
+     * @param commandLog
+     */
+    public void initCommands(CommandLog commandLog)
     {
         // Initalisation des commandes
-        copyCommand = new CopyCommand(model, textBox);
-        cutCommand = new CutCommand(model, textBox);
-        majCommand = new MajCommand(model, textBox);
-        minCommand = new MinCommand(model, textBox);
-        pasteCommand = new PasteCommand(model, textBox);
-        twitCommand = new TwitCommand(model, textBox);
+        copyCommand = new CopyCommand(model, textBox, commandLog);
+        cutCommand = new CutCommand(model, textBox, commandLog);
+        majCommand = new MajCommand(model, textBox, commandLog);
+        minCommand = new MinCommand(model, textBox, commandLog);
+        pasteCommand = new PasteCommand(model, textBox, commandLog);
+        twitCommand = new TwitCommand(model, textBox, commandLog);
+        undoCommand = new UndoCommand(model, textBox, commandLog);
 
         // Liaison entre les boutons et les commandes
         copyButton.storeCommand(copyCommand);
@@ -155,6 +164,7 @@ public class Editor extends JFrame
         minButton.storeCommand(minCommand);
         pasteButton.storeCommand(pasteCommand);
         twitButton.storeCommand(twitCommand);
+        undo.storeCommand(undoCommand);
 
         // Création des raccourcis
         KeyboardShortcut keybordshortcutCopy = new KeyboardShortcut(KeyEvent.VK_C, true);
@@ -167,7 +177,7 @@ public class Editor extends JFrame
         keybordshortcutCut.storeCommand(cutCommand);
 
         KeyboardShortcut keybordshortcutUndo = new KeyboardShortcut(KeyEvent.VK_Z, true);
-        // A FAIRE keybordshortcutUndo.storeCommand(command);
+        keybordshortcutUndo.storeCommand(undoCommand);
 
         KeyboardShortcut keybordshortcutRedo = new KeyboardShortcut(KeyEvent.VK_Y, true);
         // A FAIRE keybordshortcutRedo.storeCommand(command);
@@ -178,9 +188,11 @@ public class Editor extends JFrame
         shortcuts.addShortcut(keybordshortcutCut);
         shortcuts.addShortcut(keybordshortcutUndo);
         shortcuts.addShortcut(keybordshortcutRedo);
+        shortcuts.addShortcut(keybordshortcutUndo);
 
         toggleInsert = new ToggleInsertCommand(model, insert);
         insert.storeCommand(toggleInsert);
+
     }
 
     public void setModel(EditableDocument doc)

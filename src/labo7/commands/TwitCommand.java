@@ -1,5 +1,6 @@
 package labo7.commands;
 
+import labo7.log.CommandLog;
 import labo7.model.EditableDocument;
 import labo7.ui.EditorTextArea;
 
@@ -8,18 +9,29 @@ import labo7.ui.EditorTextArea;
  */
 public class TwitCommand extends EditDocumentCommand
 {
-
-    public TwitCommand(EditableDocument model, EditorTextArea textArea)
+    public TwitCommand(EditableDocument model, EditorTextArea textArea, CommandLog commandLog)
     {
-        super(model, textArea);
+        super(model, textArea, commandLog);
     }
 
     @Override
     public void execute()
     {
+        // Sauvegarde du texte
+        text = model.getText();
+        
         if (model.getText().length() > 140)
         {
             model.setText(model.getText().substring(0, 140));
         }
+
+        // Journalisation
+        log.ajouter(this.clone());
+    }
+
+    @Override
+    public void undo()
+    {
+        model.setText(text);
     }
 }
