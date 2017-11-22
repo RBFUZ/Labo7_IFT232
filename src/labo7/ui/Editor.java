@@ -3,6 +3,7 @@ package labo7.ui;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -14,9 +15,11 @@ import labo7.commands.CutCommand;
 import labo7.commands.MajCommand;
 import labo7.commands.MinCommand;
 import labo7.commands.PasteCommand;
+import labo7.commands.ToggleInsertCommand;
 import labo7.commands.TwitCommand;
 import labo7.model.EditableDocument;
 import labo7.ui.buttons.EditorButton;
+import labo7.ui.shortcuts.KeyboardShortcut;
 import labo7.ui.shortcuts.ShortcutManager;
 
 @SuppressWarnings("serial")
@@ -46,6 +49,8 @@ public class Editor extends JFrame
     private MinCommand minCommand;
     private PasteCommand pasteCommand;
     private TwitCommand twitCommand;
+
+    private ToggleInsertCommand toggleInsert;
 
     public Editor(EditableDocument doc)
     {
@@ -115,7 +120,7 @@ public class Editor extends JFrame
         undo = new EditorButton("undo");
         redo = new EditorButton("redo");
 
-        insert = new EditorCheckBox("Insertion", model);
+        insert = new EditorCheckBox("Insertion");
         insert.setSelected(true);
         controlPanel.add(undo);
         controlPanel.add(redo);
@@ -135,6 +140,7 @@ public class Editor extends JFrame
 
     public void initCommands()
     {
+        // Initalisation des commandes
         copyCommand = new CopyCommand(model, textBox);
         cutCommand = new CutCommand(model, textBox);
         majCommand = new MajCommand(model, textBox);
@@ -142,12 +148,39 @@ public class Editor extends JFrame
         pasteCommand = new PasteCommand(model, textBox);
         twitCommand = new TwitCommand(model, textBox);
 
+        // Liaison entre les boutons et les commandes
         copyButton.storeCommand(copyCommand);
         cutButton.storeCommand(cutCommand);
         majButton.storeCommand(majCommand);
         minButton.storeCommand(minCommand);
         pasteButton.storeCommand(pasteCommand);
         twitButton.storeCommand(twitCommand);
+
+        // Création des raccourcis
+        KeyboardShortcut keybordshortcutCopy = new KeyboardShortcut(KeyEvent.VK_C, true);
+        keybordshortcutCopy.storeCommand(copyCommand);
+
+        KeyboardShortcut keybordshortcutPaste = new KeyboardShortcut(KeyEvent.VK_V, true);
+        keybordshortcutPaste.storeCommand(pasteCommand);
+
+        KeyboardShortcut keybordshortcutCut = new KeyboardShortcut(KeyEvent.VK_X, true);
+        keybordshortcutCut.storeCommand(cutCommand);
+
+        KeyboardShortcut keybordshortcutUndo = new KeyboardShortcut(KeyEvent.VK_Z, true);
+        // A FAIRE keybordshortcutUndo.storeCommand(command);
+
+        KeyboardShortcut keybordshortcutRedo = new KeyboardShortcut(KeyEvent.VK_Y, true);
+        // A FAIRE keybordshortcutRedo.storeCommand(command);
+
+        // Ajout des raccourcis à la liste
+        shortcuts.addShortcut(keybordshortcutCopy);
+        shortcuts.addShortcut(keybordshortcutPaste);
+        shortcuts.addShortcut(keybordshortcutCut);
+        shortcuts.addShortcut(keybordshortcutUndo);
+        shortcuts.addShortcut(keybordshortcutRedo);
+
+        toggleInsert = new ToggleInsertCommand(model, insert);
+        insert.storeCommand(toggleInsert);
     }
 
     public void setModel(EditableDocument doc)

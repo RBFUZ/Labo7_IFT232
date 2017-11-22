@@ -6,7 +6,7 @@ import labo7.ui.EditorTextArea;
 /**
  * Commande couper
  */
-public class CutCommand extends Command
+public class CutCommand extends EditDocumentCommand
 {
     public CutCommand(EditableDocument model, EditorTextArea textArea)
     {

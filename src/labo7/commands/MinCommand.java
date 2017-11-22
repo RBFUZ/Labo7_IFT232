@@ -6,7 +6,7 @@ import labo7.ui.EditorTextArea;
 /**
  * Commande minuscule
  */
-public class MinCommand extends Command
+public class MinCommand extends EditDocumentCommand
 {
 
     public MinCommand(EditableDocument model, EditorTextArea textArea)

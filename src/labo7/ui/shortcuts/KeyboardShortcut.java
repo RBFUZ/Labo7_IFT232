@@ -2,31 +2,47 @@ package labo7.ui.shortcuts;
 
 import java.awt.event.KeyEvent;
 
+import labo7.commands.Command;
+import labo7.invoker.Invoker;
+
 /*
- * Classe définissant un raccourci clavier.
- * Prévoit une méthode à être appelée lorsque le raccourci est déclenché.
+ * Classe dï¿½finissant un raccourci clavier. Prï¿½voit une mï¿½thode ï¿½ ï¿½tre appelï¿½e
+ * lorsque le raccourci est dï¿½clenchï¿½.
  */
 
-public abstract class KeyboardShortcut {
+public class KeyboardShortcut implements Invoker
+{
 
-	private boolean control;
-	private int keyCode;
+    private boolean control;
+    private int keyCode;
+    private Command command;
 
-	public KeyboardShortcut(int code, boolean ctrl) {
-		control = ctrl;
-		keyCode = code;
-	}
+    public KeyboardShortcut(int code, boolean ctrl)
+    {
+        control = ctrl;
+        keyCode = code;
+    }
 
-	public boolean match(KeyEvent evt) {
-		if (evt.getID() == KeyEvent.KEY_PRESSED) {				
-			if(evt.getKeyCode() == keyCode && evt.isControlDown() == control){
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean match(KeyEvent evt)
+    {
+        if (evt.getID() == KeyEvent.KEY_PRESSED)
+        {
+            if (evt.getKeyCode() == keyCode && evt.isControlDown() == control)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public abstract void activateShortcut();
+    public void activateShortcut()
+    {
+        command.execute();
+    }
 
+    @Override
+    public void storeCommand(Command command)
+    {
+        this.command = command;
+    }
 }
-

@@ -6,7 +6,7 @@ import labo7.ui.EditorTextArea;
 /**
  * Commande de copy
  */
-public class CopyCommand extends Command
+public class CopyCommand extends EditDocumentCommand
 {
     public CopyCommand(EditableDocument model, EditorTextArea textArea)
     {

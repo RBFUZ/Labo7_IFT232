@@ -6,7 +6,7 @@ import labo7.ui.EditorTextArea;
 /**
  * Commande qui coupe le texte a plus de 140 caractères
  */
-public class TwitCommand extends Command
+public class TwitCommand extends EditDocumentCommand
 {
 
     public TwitCommand(EditableDocument model, EditorTextArea textArea)

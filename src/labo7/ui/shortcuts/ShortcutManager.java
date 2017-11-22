@@ -4,85 +4,53 @@ import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-
 /*
- * Classe gérant les raccourcis clavier.
+ * Classe gï¿½rant les raccourcis clavier.
  */
 
-public class ShortcutManager implements KeyEventDispatcher {
+public class ShortcutManager implements KeyEventDispatcher
+{
+    private ArrayList<KeyboardShortcut> shortcuts;
 
+    public ShortcutManager()
+    {
+        shortcuts = new ArrayList<KeyboardShortcut>();
+    }
 
-	private ArrayList<KeyboardShortcut> shortcuts;
+    /*
+     * Mï¿½thode invoquï¿½e lorsqu'une touche est enfoncï¿½e ou relï¿½chï¿½e.
+     */
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent evt)
+    {
 
-	public ShortcutManager() {
-		
-		shortcuts = new ArrayList<KeyboardShortcut>();
-		initManager();
-	}
+        /*
+         * Vï¿½rifie si un des raccourcis clavier correspond ï¿½ l'ï¿½vï¿½nement reï¿½u.
+         */
+        for (KeyboardShortcut sc : shortcuts)
+        {
+            if (sc.match(evt))
+            {
+                sc.activateShortcut();
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/*
-	 * Méthode invoquée lorsqu'une touche est enfoncée ou relâchée.
-	 */
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent evt) {
+    /*
+     * Permet l'ajout d'un raccourci.
+     */
+    public void addShortcut(KeyboardShortcut sc)
+    {
+        shortcuts.add(sc);
+    }
 
-		/*
-		 * Vérifie si un des raccourcis clavier correspond
-		 * à l'événement reçu.
-		 */		
-		for (KeyboardShortcut sc : shortcuts) {
-			if (sc.match(evt)) {
-				sc.activateShortcut();
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	
-	/*
-	 * Permet l'ajout d'un raccourci.
-	 */
-	public void addShortcut(KeyboardShortcut sc){
-		shortcuts.add(sc);
-	}
-	
-	/*
-	 * Définit les raccourcis actuels. 
-	 */
-	public void initManager(){
-		
-		shortcuts.add(new KeyboardShortcut(KeyEvent.VK_C, true){
-			public void activateShortcut(){
-				System.out.println("Copier!");
-			}
-		});
-		
-		shortcuts.add(new KeyboardShortcut(KeyEvent.VK_V, true){
-			public void activateShortcut(){
-				System.out.println("Coller!");
-			}
-		});
-		
-		shortcuts.add(new KeyboardShortcut(KeyEvent.VK_X, true){
-			public void activateShortcut(){
-				System.out.println("Couper!");
-			}
-		});
-		
-		shortcuts.add(new KeyboardShortcut(KeyEvent.VK_Z, true){
-			public void activateShortcut(){
-				System.out.println("Undo!");
-			}
-		});
-		
-		shortcuts.add(new KeyboardShortcut(KeyEvent.VK_Y, true){
-			public void activateShortcut(){
-				System.out.println("Redo!");
-			}
-		});		
-	}
-	
-	
-	
+    /**
+     * @return the shortcuts
+     */
+    public ArrayList<KeyboardShortcut> getShortcuts()
+    {
+        return shortcuts;
+    }
 }

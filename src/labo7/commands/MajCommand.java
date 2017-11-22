@@ -6,7 +6,7 @@ import labo7.ui.EditorTextArea;
 /**
  * Commande maj
  */
-public class MajCommand extends Command
+public class MajCommand extends EditDocumentCommand
 {
 
     public MajCommand(EditableDocument model, EditorTextArea textArea)
