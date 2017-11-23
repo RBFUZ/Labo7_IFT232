@@ -51,7 +51,7 @@ public class EditorMenu extends JPopupMenu
             add(itemPaste);
         }
 
-        if (!CommandFactory.getInstance().getLog().isEmpty())
+        if (!CommandFactory.getInstance().getLog().isEmptyUndo())
         {
             itemUndo = new EditorMenuItem("Undo", model);
             itemUndo.storeCommand(CommandFactory.getInstance().createUndoCommand(model, textArea));

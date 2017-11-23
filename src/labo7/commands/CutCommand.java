@@ -17,18 +17,26 @@ public class CutCommand extends EditDocumentCommand
     @Override
     public void execute()
     {
-        // Sauvegarde du texte
-        text = model.getText();
-        
+        saveState();
+
+        // Sauvegarde du texte avant la modification
+        textBefore = model.getText();
+
         model.cut(textArea.getSelectionStart(), textArea.getSelectionEnd());
+        
+        // Sauvegarde du texte avant la modification
+        textAfter = model.getText();
 
         // Journalisation
-        log.ajouter(this.clone());
+        log.ajouterCommande(this.clone());
     }
 
     @Override
-    public void undo()
+    public void saveState()
     {
-        model.setText(text);
+        selectionStart = textArea.getSelectionStart();
+        selectionEnd = textArea.getSelectionEnd();
+
+        cursorPosition = textArea.getCaretPosition();
     }
 }

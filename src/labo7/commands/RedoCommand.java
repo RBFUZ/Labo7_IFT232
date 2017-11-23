@@ -4,21 +4,21 @@ import labo7.log.CommandLog;
 import labo7.model.EditableDocument;
 import labo7.ui.EditorTextArea;
 
-public class UndoCommand extends EditDocumentCommand
+public class RedoCommand extends EditDocumentCommand
 {
 
-    public UndoCommand(EditableDocument model, EditorTextArea textArea, CommandLog commandLog)
+    public RedoCommand(EditableDocument model, EditorTextArea textArea, CommandLog log)
     {
-        super(model, textArea, commandLog);
+        super(model, textArea, log);
     }
 
     @Override
     public void execute()
     {
-        EditDocumentCommand command = log.retirerUndo();
+        EditDocumentCommand command = log.retirerRedo();
 
         if (command != null)
-            command.undo();
+            command.redo();
     }
 
     @Override
@@ -30,6 +30,5 @@ public class UndoCommand extends EditDocumentCommand
     @Override
     public void saveState()
     {
-        // Rien à save
     }
 }

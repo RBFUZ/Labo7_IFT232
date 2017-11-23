@@ -12,7 +12,11 @@ public abstract class EditDocumentCommand extends Command implements Cloneable
     protected static EditableDocument model;
     protected static EditorTextArea textArea;
     protected static CommandLog log;
-    protected String text;
+    protected String textBefore;
+    protected String textAfter;
+    protected Integer selectionStart;
+    protected Integer selectionEnd;
+    protected Integer cursorPosition;
 
     /**
      * Constructeur de confort
@@ -32,6 +36,8 @@ public abstract class EditDocumentCommand extends Command implements Cloneable
      */
     public abstract void execute();
 
+    public abstract void saveState();
+
     public EditDocumentCommand clone()
     {
         try
@@ -44,6 +50,17 @@ public abstract class EditDocumentCommand extends Command implements Cloneable
             throw new RuntimeException();
         }
     }
-    
-    public abstract void undo();
+
+    public void undo()
+    {
+        model.setText(textBefore);
+    }
+
+    public void redo()
+    {
+        model.setText(textAfter);
+        textArea.setCaretPosition(cursorPosition);
+        textArea.setSelectionStart(selectionStart);
+        textArea.setSelectionEnd(selectionEnd);
+    }
 }

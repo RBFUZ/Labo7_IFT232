@@ -17,12 +17,16 @@ public class CopyCommand extends EditDocumentCommand
     @Override
     public void execute()
     {
+        saveState();
         model.copy(textArea.getSelectionStart(), textArea.getSelectionEnd());
     }
 
     @Override
-    public void undo()
+    public void saveState()
     {
-        model.setText(text);
+        selectionStart = textArea.getSelectionStart();
+        selectionEnd = textArea.getSelectionEnd();
+
+        cursorPosition = textArea.getCaretPosition();
     }
 }

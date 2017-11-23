@@ -18,18 +18,30 @@ public class PasteCommand extends EditDocumentCommand
     @Override
     public void execute()
     {
+        saveState();
+        
         // Sauvegarde du texte
-        text = model.getText();
+        textBefore = model.getText();
         
         model.paste(textArea.getSelectionStart());
+        
+        // Sauvegarde du texte avant la modification
+        textAfter = model.getText();
 
         // Journalisation
-        log.ajouter(this.clone());
+        log.ajouterCommande(this.clone());
     }
-
+    
     @Override
-    public void undo()
+    public void saveState()
     {
-        model.setText(text);
+        cursorPosition = textArea.getCaretPosition();
+    }
+    
+    @Override
+    public void redo()
+    {
+        model.setText(textAfter);
+        textArea.setCaretPosition(cursorPosition);
     }
 }

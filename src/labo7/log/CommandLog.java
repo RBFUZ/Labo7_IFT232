@@ -6,36 +6,44 @@ import labo7.commands.EditDocumentCommand;
 
 public class CommandLog
 {
-    private Stack<EditDocumentCommand> st;
+    private Stack<EditDocumentCommand> stUndo;
+    private Stack<EditDocumentCommand> stRedo;
 
     public CommandLog()
     {
-        st = new Stack<EditDocumentCommand>();
+        stUndo = new Stack<EditDocumentCommand>();
+        stRedo = new Stack<EditDocumentCommand>();
     }
 
-    public void ajouter(EditDocumentCommand command)
+    public void ajouterCommande(EditDocumentCommand command)
     {
-        st.push(command);
+        stUndo.push(command);
+        stRedo.clear();
     }
 
-    public EditDocumentCommand retirer()
+    public EditDocumentCommand retirerUndo()
     {
-        if (!isEmpty())
+        if (!isEmptyUndo())
         {
-            return (EditDocumentCommand) st.pop();
+            stRedo.add(stUndo.peek().clone());
+            return (EditDocumentCommand) stUndo.pop();
         }
         else
             return null;
-
     }
 
-    public EditDocumentCommand voir()
+    public boolean isEmptyUndo()
     {
-        return (EditDocumentCommand) st.peek();
+        return stUndo.isEmpty();
     }
 
-    public boolean isEmpty()
+    public EditDocumentCommand retirerRedo()
     {
-        return st.isEmpty();
+        if (!stRedo.isEmpty())
+        {
+            stUndo.add(stRedo.peek().clone());
+            return (EditDocumentCommand) stRedo.pop();
+        }
+        return null;
     }
 }
