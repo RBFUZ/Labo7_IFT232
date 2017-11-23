@@ -25,6 +25,7 @@ public class EditorMenu extends JPopupMenu
         EditorMenuItem itemMaj;
         EditorMenuItem itemMin;
         EditorMenuItem itemUndo;
+        EditorMenuItem itemRedo;
 
         if (textArea.getSelectedText() != null)
         {
@@ -57,5 +58,13 @@ public class EditorMenu extends JPopupMenu
             itemUndo.storeCommand(CommandFactory.getInstance().createUndoCommand(model, textArea));
             add(itemUndo);
         }
+
+        if (!CommandFactory.getInstance().getLog().isEmptyRedo())
+        {
+            itemRedo = new EditorMenuItem("Redo", model);
+            itemRedo.storeCommand(CommandFactory.getInstance().createRedoCommand(model, textArea));
+            add(itemRedo);
+        }
+
     }
 }

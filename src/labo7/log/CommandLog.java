@@ -46,4 +46,9 @@ public class CommandLog
         }
         return null;
     }
+
+    public boolean isEmptyRedo()
+    {
+        return stRedo.isEmpty();
+    }
 }

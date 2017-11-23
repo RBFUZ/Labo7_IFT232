@@ -14,8 +14,7 @@ public abstract class EditDocumentCommand extends Command implements Cloneable
     protected static CommandLog log;
     protected String textBefore;
     protected String textAfter;
-    protected Integer selectionStart;
-    protected Integer selectionEnd;
+    protected String textSelected;
     protected Integer cursorPosition;
 
     /**
@@ -59,8 +58,5 @@ public abstract class EditDocumentCommand extends Command implements Cloneable
     public void redo()
     {
         model.setText(textAfter);
-        textArea.setCaretPosition(cursorPosition);
-        textArea.setSelectionStart(selectionStart);
-        textArea.setSelectionEnd(selectionEnd);
     }
 }
