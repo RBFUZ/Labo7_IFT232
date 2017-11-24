@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import labo7.commands.CommandFactory;
 import labo7.commands.CopyCommand;
 import labo7.commands.CutCommand;
+import labo7.commands.EditTextCommand;
 import labo7.commands.MajCommand;
 import labo7.commands.MinCommand;
 import labo7.commands.PasteCommand;
@@ -55,6 +56,7 @@ public class Editor extends JFrame
     private TwitCommand twitCommand;
     private UndoCommand undoCommand;
     private RedoCommand redoCommand;
+    private EditTextCommand editTextCommand;
 
     private ToggleInsertCommand toggleInsert;
 
@@ -160,6 +162,7 @@ public class Editor extends JFrame
         twitCommand = CommandFactory.getInstance().createTwitCommand(model, textBox);
         undoCommand = CommandFactory.getInstance().createUndoCommand(model, textBox);
         redoCommand = CommandFactory.getInstance().createRedoCommand(model, textBox);
+        editTextCommand = CommandFactory.getInstance().createEditTextCommand(model, textBox);
 
         // Liaison entre les boutons et les commandes
         copyButton.storeCommand(copyCommand);
@@ -170,6 +173,7 @@ public class Editor extends JFrame
         twitButton.storeCommand(twitCommand);
         undo.storeCommand(undoCommand);
         redo.storeCommand(redoCommand);
+        textBox.storeCommand(editTextCommand);
 
         // Création des raccourcis
         KeyboardShortcut keybordshortcutCopy = new KeyboardShortcut(KeyEvent.VK_C, true);

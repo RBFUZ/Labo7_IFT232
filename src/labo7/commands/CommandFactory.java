@@ -52,10 +52,15 @@ public class CommandFactory
     {
         return new UndoCommand(model, textArea, log);
     }
-    
+
     public RedoCommand createRedoCommand(EditableDocument model, EditorTextArea textArea)
     {
         return new RedoCommand(model, textArea, log);
+    }
+
+    public EditTextCommand createEditTextCommand(EditableDocument model, EditorTextArea textArea)
+    {
+        return new EditTextCommand(model, textArea, log);
     }
 
     public ToggleInsertCommand createToggleInsertCommand(EditableDocument model, EditorCheckBox insert)

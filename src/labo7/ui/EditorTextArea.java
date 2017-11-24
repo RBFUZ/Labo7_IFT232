@@ -9,15 +9,18 @@ import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import labo7.commands.Command;
+import labo7.invoker.Invoker;
 import labo7.model.DocumentObserver;
 import labo7.model.EditableDocument;
 import labo7.ui.menu.EditorMenu;
 import labo7.ui.menu.EditorMenuItem;
 
-public class EditorTextArea extends JTextArea implements DocumentListener, DocumentObserver, MouseListener
+public class EditorTextArea extends JTextArea implements DocumentListener, DocumentObserver, MouseListener, Invoker
 {
 
     private static final long serialVersionUID = 1L;
+    private Command command;
 
     private EditableDocument model;
 
@@ -59,12 +62,16 @@ public class EditorTextArea extends JTextArea implements DocumentListener, Docum
     @Override
     public void insertUpdate(DocumentEvent evt)
     {
+        System.out.println("INSERT");
+        command.execute();
         modifyDocument(evt);
     }
 
     @Override
     public void removeUpdate(DocumentEvent evt)
     {
+        System.out.println("REMOVE");
+        command.execute();
         modifyDocument(evt);
     }
 
@@ -123,10 +130,10 @@ public class EditorTextArea extends JTextArea implements DocumentListener, Docum
         {
 
             EditorMenu menu = new EditorMenu(model, this);
-            
+
             // Ajoute les items du menu dans le menu contextuel
             menu.setup();
-            
+
             add(menu);
             menu.show(this, evt.getX(), evt.getY());
         }
@@ -161,5 +168,11 @@ public class EditorTextArea extends JTextArea implements DocumentListener, Docum
     @Override
     public void mousePressed(MouseEvent arg0)
     {
+    }
+
+    @Override
+    public void storeCommand(Command command)
+    {
+        this.command = command;
     }
 }
