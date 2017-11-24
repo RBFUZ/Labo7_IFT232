@@ -28,6 +28,12 @@ public class RedoCommand extends EditDocumentCommand
     }
 
     @Override
+    public void redo()
+    {
+        // Impossible
+    }
+
+    @Override
     public void saveState()
     {
     }

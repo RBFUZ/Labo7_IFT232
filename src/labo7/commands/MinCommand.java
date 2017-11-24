@@ -19,23 +19,31 @@ public class MinCommand extends EditDocumentCommand
     public void execute()
     {
         saveState();
-        
+
         // Sauvegarde du texte
-        textBefore = model.getText();
-        
+        text = model.getText();
+
         model.minimize(textArea.getSelectionStart(), textArea.getSelectionEnd());
-        
-        // Sauvegarde du texte avant la modification
-        textAfter = model.getText();
 
         // Journalisation
         log.ajouterCommande(this.clone());
     }
-    
+
     @Override
     public void saveState()
     {
         textSelected = textArea.getSelectedText();
         cursorPosition = textArea.getCaretPosition();
+    }
+
+    @Override
+    public void redo()
+    {
+        StringBuilder str = new StringBuilder(text);
+
+        // Remplacement de la chaine selectionnée par une chaine vide
+        str.replace(cursorPosition - textSelected.length(), cursorPosition, textSelected.toLowerCase());
+
+        model.setText(str.toString());
     }
 }

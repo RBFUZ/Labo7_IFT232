@@ -24,7 +24,10 @@ public class CopyCommand extends EditDocumentCommand
     @Override
     public void saveState()
     {
-        textSelected = textArea.getSelectedText();
-        cursorPosition = textArea.getCaretPosition();
+    }
+    
+    @Override
+    public void redo()
+    {
     }
 }

@@ -19,29 +19,30 @@ public class PasteCommand extends EditDocumentCommand
     public void execute()
     {
         saveState();
-        
+
         // Sauvegarde du texte
-        textBefore = model.getText();
-        
+        text = model.getText();
+
         model.paste(textArea.getSelectionStart());
-        
-        // Sauvegarde du texte avant la modification
-        textAfter = model.getText();
 
         // Journalisation
         log.ajouterCommande(this.clone());
     }
-    
+
     @Override
     public void saveState()
     {
         cursorPosition = textArea.getCaretPosition();
     }
-    
+
     @Override
     public void redo()
     {
-        model.setText(textAfter);
-        textArea.setCaretPosition(cursorPosition);
+        StringBuilder str = new StringBuilder(text);
+
+        // Remplacement de la chaine selectionnée par une chaine vide
+        str.insert(cursorPosition, model.getClipBoard());
+
+        model.setText(str.toString());
     }
 }

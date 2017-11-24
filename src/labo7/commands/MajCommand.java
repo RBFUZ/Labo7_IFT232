@@ -21,12 +21,9 @@ public class MajCommand extends EditDocumentCommand
         saveState();
 
         // Sauvegarde du texte
-        textBefore = model.getText();
+        text = model.getText();
 
         model.capitalize(textArea.getSelectionStart(), textArea.getSelectionEnd());
-        
-        // Sauvegarde du texte avant la modification
-        textAfter = model.getText();
 
         // Journalisation
         log.ajouterCommande(this.clone());
@@ -37,5 +34,16 @@ public class MajCommand extends EditDocumentCommand
     {
         textSelected = textArea.getSelectedText();
         cursorPosition = textArea.getCaretPosition();
+    }
+
+    @Override
+    public void redo()
+    {
+        StringBuilder str = new StringBuilder(text);
+
+        // Remplacement de la chaine selectionnée par une chaine vide
+        str.replace(cursorPosition - textSelected.length(), cursorPosition, textSelected.toUpperCase());
+
+        model.setText(str.toString());
     }
 }

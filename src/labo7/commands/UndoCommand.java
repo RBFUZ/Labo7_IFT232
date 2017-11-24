@@ -28,8 +28,13 @@ public class UndoCommand extends EditDocumentCommand
     }
 
     @Override
+    public void redo()
+    {
+        // Impossible
+    }
+
+    @Override
     public void saveState()
     {
-        // Rien à save
     }
 }

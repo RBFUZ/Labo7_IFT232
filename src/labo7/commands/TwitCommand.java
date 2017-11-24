@@ -18,29 +18,25 @@ public class TwitCommand extends EditDocumentCommand
     public void execute()
     {
         // Sauvegarde du texte
-        textBefore = model.getText();
+        text = model.getText();
         
         if (model.getText().length() > 140)
         {
             model.setText(model.getText().substring(0, 140));
         }
-        
-        // Sauvegarde du texte avant la modification
-        textAfter = model.getText();
 
         // Journalisation
         log.ajouterCommande(this.clone());
+    }
+  
+    @Override
+    public void saveState()
+    {
     }
     
     @Override
     public void redo()
     {
-        model.setText(textAfter);
-        textArea.setCaretPosition(cursorPosition);
-    }
-    
-    @Override
-    public void saveState()
-    {
+        model.setText(model.getText().substring(0, 140));
     }
 }

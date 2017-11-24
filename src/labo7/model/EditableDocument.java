@@ -96,4 +96,12 @@ public class EditableDocument
         text = newVal;
         notifyObservers();
     }
+
+    /**
+     * @return the clipBoard
+     */
+    public String getClipBoard()
+    {
+        return clipBoard;
+    }
 }
