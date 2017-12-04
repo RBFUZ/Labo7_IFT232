@@ -62,16 +62,13 @@ public class EditorTextArea extends JTextArea implements DocumentListener, Docum
     @Override
     public void insertUpdate(DocumentEvent evt)
     {
-        System.out.println("INSERT");
-        command.execute();
+        
         modifyDocument(evt);
     }
 
     @Override
     public void removeUpdate(DocumentEvent evt)
     {
-        System.out.println("REMOVE");
-        command.execute();
         modifyDocument(evt);
     }
 
@@ -113,6 +110,7 @@ public class EditorTextArea extends JTextArea implements DocumentListener, Docum
             model.setText(this.getText());
 
             mute = false;
+            command.execute();
         }
     }
 

@@ -20,24 +20,8 @@ public class CommandLog
 
     public void ajouterCommande(EditDocumentCommand command)
     {
-        /*if (stUndo.isEmpty() && command.equals(EditTextCommand.class))
-        {
-            System.out.println("Vide et insertion");
-            stUndo.push(command);
-        }
-        
-        if (!stUndo.isEmpty())
-        {
-            System.out.println("La pile n'est pas vide");
-            if (!stUndo.peek().equals(command))
-            {
-                System.out.println("La commande est différente");*/
-                stUndo.push(command);
-                stRedo.clear();
-            /*}
-        }
-        else
-            System.out.println("La pile est vide");*/
+        stUndo.push(command);
+        stRedo.clear();
     }
 
     public EditDocumentCommand retirerUndo()
